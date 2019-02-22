@@ -499,7 +499,7 @@ class HelpfulArgumentParser(object):
         HELP_TOPICS += list(self.VERBS) + self.COMMANDS_TOPICS + ["manage"]
 
         plugin_names = list(plugins)
-        self.help_topics = HELP_TOPICS + plugin_names + [None]  # type: ignore
+        self.help_topics = HELP_TOPICS + plugin_names + ["__AlwaysDocumented__"]  # type: ignore
 
         self.detect_defaults = detect_defaults
         self.args = args
@@ -768,6 +768,9 @@ class HelpfulArgumentParser(object):
             topic = self.help_arg if self.help_arg in topics else topics[0]
         else:
             topic = topics  # there's only one
+
+        if topic is None:
+            topic = "__AlwaysDocumented__"
 
         if self.detect_defaults:
             kwargs = self.modify_kwargs_for_default_detection(**kwargs)
